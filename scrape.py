@@ -46,3 +46,11 @@ class ScrapeBooks:
                         print(title_book.text)
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching {url_thumbnail}: {e}")
+
+
+# Example usage:
+scraper = ScrapeBooks()
+scraper.requests_page()
+scraper.parser_thumbnail_address()
+scraper.get_thumbnail_address()
+scraper.parser_title_book()
