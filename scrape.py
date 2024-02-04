@@ -32,3 +32,17 @@ class ScrapeBooks:
                 response_catalogue.raise_for_status()
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching {url_thumbnail}: {e}")
+
+    def parser_title_book(self):
+        for url_thumbnail in self.thumbnail_addresses:
+            try:
+                response_catalogue = requests.get(f"{self.url_base}{url_thumbnail}")
+                response_catalogue.raise_for_status()
+                soup_book = BeautifulSoup(response_catalogue.text, "html.parser")
+                for informations in soup_book.find_all(
+                    "div", class_="col-sm-6 product_main"
+                ):
+                    for title_book in informations.find_all("h1"):
+                        print(title_book.text)
+            except requests.exceptions.RequestException as e:
+                print(f"Error fetching {url_thumbnail}: {e}")
