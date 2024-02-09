@@ -37,16 +37,12 @@ class ScrapeBooks:
 
             title = soup.find("h1").text.strip()
             price = soup.find("p", class_="price_color").text.strip()
+            paragraphs = soup.find_all("p")
+            description = paragraphs[3].text.strip()
 
             print("Title:", title)
             print("Price:", price)
-
-            paragraphs = soup.find_all("p")
-
-            if len(paragraphs) > 3:
-
-                description = paragraphs[3].text.strip()
-                print("Description:", description)
+            print(f"\nDescription: {description} \n")
 
         except requests.exceptions.RequestException as e:
             print(f"Error fetching {url}: {e}")
