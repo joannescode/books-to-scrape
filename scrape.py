@@ -37,11 +37,14 @@ class ScrapeBooks:
 
             title = soup.find("h1").text.strip()
             price = soup.find("p", class_="price_color").text.strip()
+            rows_table = soup.find_all("tr")
+            aviability = rows_table[5].text.strip()
             paragraphs = soup.find_all("p")
             description = paragraphs[3].text.strip()
 
             print("Title:", title)
             print("Price:", price)
+            print(aviability)
             print(f"\nDescription: {description} \n")
 
         except requests.exceptions.RequestException as e:
