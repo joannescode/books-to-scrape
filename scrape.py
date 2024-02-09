@@ -24,19 +24,11 @@ class ScrapeBooks:
             and "category" not in address["href"]
             and "page-" not in address["href"]
         ]
-        
+
     def scrape_all_products(self):
         for url in self.product_urls:
             self.scrape_product_page(url)
 
-    #def get_thumbnail_address(self):
-    #    for url_thumbnail in self.thumbnail_addresses:
-    #        try:
-    #            response_catalogue = requests.get(f"{self.url_base}{url_thumbnail}")
-    #            response_catalogue.raise_for_status()
-    #        except requests.exceptions.RequestException as e:
-    #            print(f"Error fetching {url_thumbnail}: {e}")
-    
     def scrape_product_page(self, url):
         try:
             response = requests.get(url)
@@ -49,10 +41,17 @@ class ScrapeBooks:
             print("Title:", title)
             print("Price:", price)
 
+            paragraphs = soup.find_all("p")
+
+            if len(paragraphs) > 3:
+
+                description = paragraphs[3].text.strip()
+                print("Description:", description)
+
         except requests.exceptions.RequestException as e:
             print(f"Error fetching {url}: {e}")
 
-                
+
 # Example usage:
 scraper = ScrapeBooks()
 scraper.requests_page()
