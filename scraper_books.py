@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class ScrapeBooks:
+class S:
     def __init__(self) -> None:
         self.url_base = "https://books.toscrape.com/"
         self.thumbnail_addresses = []
