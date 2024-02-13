@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from openpyxl import Workbook
 
 
 class ScraperBooks:
@@ -7,6 +8,11 @@ class ScraperBooks:
         self.url_base = "https://books.toscrape.com"
         self.product_urls = []
         self.thumbnail_addresses = []
+        # informations to scrape
+        self.title = []
+        self.price = []
+        self.availability = []
+        self.description = []
 
     def requests_page(self, url):
         try:
@@ -28,7 +34,7 @@ class ScraperBooks:
                     if "catalogue" not in product_url:
                         product_url = self.url_base + "/catalogue/" + product_url
                     self.product_urls.append(product_url)
-            print("Product URLs:", self.product_urls)
+            # print("Product URLs:", self.product_urls)
         except Exception as e:
             print("Error parsing product URLs:", e)
 
@@ -40,20 +46,29 @@ class ScraperBooks:
                 response.raise_for_status()
                 soup = BeautifulSoup(response.text, "html.parser")
 
-                title = soup.find("h1").text.strip()
-                price = soup.find("p", class_="price_color").text.strip()
+                self.title.append(soup.find("h1").text.strip())
+                self.price.append(soup.find("p", class_="price_color").text.strip())
                 rows_table = soup.find_all("tr")
-                availability = rows_table[5].text.strip()
+                self.availability.append(rows_table[5].text.strip())
                 paragraphs = soup.find_all("p")
-                description = paragraphs[3].text.strip()
-
-                print("Title:", title)
-                print("Price:", price)
-                print("Availability:", availability)
-                print(f"\nDescription: {description} \n")
+                self.description.append(paragraphs[3].text.strip())
 
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching {url}: {e}")
+
+        self.workbook_products()
+
+    def workbook_products(self):
+        wb = Workbook()
+        worksheet = wb.active
+        worksheet.title = "Books"
+
+        worksheet.append(["Title", "Price", "Availability", "Description"])
+
+        for info in zip(self.title, self.price, self.availability, self.description):
+            worksheet.append(info)
+
+        wb.save("data_books.xlsx")
 
 
 # Example usage:
