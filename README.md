@@ -10,7 +10,6 @@ O objetivo deste projeto é demonstrar como realizar web scraping de dados de li
 
 - Extrair informações de todos os livros disponíveis no site, incluindo título, preço, avaliação, etc.
 - Organizar os dados extraídos em um formato estruturado (por exemplo, CSV, JSON, etc.).
-- Possibilidade de personalização para extrair dados específicos conforme necessário.
 
 ## Requisitos
 
@@ -18,6 +17,7 @@ O objetivo deste projeto é demonstrar como realizar web scraping de dados de li
 - Bibliotecas:
   - BeautifulSoup
   - Requests
+  - Openpyxl
 
 ## Instalação e Utilização
 
